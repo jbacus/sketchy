@@ -1,0 +1,82 @@
+[
+  {
+    "agent_name": "PM-Agent",
+    "persona": "Project Manager & Orchestrator",
+    "domain_focus": "Global state management, task decomposition, scheduling, quality gate approval",
+    "is_available": true,
+    "current_load": "0 tasks",
+    "priority": 1
+  },
+  {
+    "agent_name": "Kernel-Agent",
+    "persona": "C++/Rust Performance Engineer",
+    "domain_focus": "Core Geometric Kernel, Data Structures, Winged-Edge, Non-manifold geometry",
+    "is_available": true,
+    "current_load": "0 tasks",
+    "priority": 2
+  },
+  {
+    "agent_name": "Graphics-Agent",
+    "persona": "Graphics API (OpenGL/Vulkan) Expert",
+    "domain_focus": "Rendering pipelines, shading, real-time inference rendering, camera controls",
+    "is_available": true,
+    "current_load": "0 tasks",
+    "priority": 2
+  },
+  {
+    "agent_name": "Modeling-Agent",
+    "persona": "Computational Geometry Specialist",
+    "domain_focus": "Surface manipulation, extrusion logic, geometric transformations",
+    "is_available": true,
+    "current_load": "0 tasks",
+    "priority": 2
+  },
+  {
+    "agent_name": "IO-Agent",
+    "persona": "Data Serialization/File Format Expert",
+    "domain_focus": "Parsing, importing, exporting (OBJ, STL, DWG)",
+    "is_available": true,
+    "current_load": "0 tasks",
+    "priority": 3
+  },
+  {
+    "agent_name": "UXUI-Agent",
+    "persona": "Frontend/Interaction Designer",
+    "domain_focus": "Application shell, 2D documentation layout, user flows, UI components",
+    "is_available": true,
+    "current_load": "0 tasks",
+    "priority": 3
+  },
+  {
+    "agent_name": "API-Agent",
+    "persona": "Scripting Language (Python/Lua) Compiler/Wrapper",
+    "domain_focus": "API bridge, object model exposure, scripting interfaces",
+    "is_available": true,
+    "current_load": "0 tasks",
+    "priority": 4
+  },
+  {
+    "agent_name": "Cloud-Agent",
+    "persona": "Distributed Systems/DevOps Engineer",
+    "domain_focus": "Cloud collaboration, CI/CD, API deployment, state synchronization",
+    "is_available": true,
+    "current_load": "0 tasks",
+    "priority": 5
+  },
+  {
+    "agent_name": "QA-Agent",
+    "persona": "Code Reviewer & Test Generator",
+    "domain_focus": "Unit/integration tests, coverage analysis (target: >95%)",
+    "is_available": true,
+    "current_load": "0 tasks",
+    "priority": 2
+  },
+  {
+    "agent_name": "Sentinel-Agent",
+    "persona": "Security/Performance Auditor",
+    "domain_focus": "Static analysis, security flaws, performance bottlenecks, complexity analysis",
+    "is_available": true,
+    "current_load": "0 tasks",
+    "priority": 2
+  }
+]

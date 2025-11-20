@@ -1,0 +1,80 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "TaskHandoff",
+  "description": "Standardized task handoff message for agent delegation",
+  "type": "object",
+  "required": ["task_id", "phase", "agent_name", "goal", "acceptance_criteria"],
+  "properties": {
+    "task_id": {
+      "type": "string",
+      "pattern": "^P[0-9]+-T[0-9]+$",
+      "description": "Unique task identifier (e.g., P1-T3)"
+    },
+    "phase": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Phase number from roadmap"
+    },
+    "agent_name": {
+      "type": "string",
+      "enum": [
+        "PM-Agent",
+        "Kernel-Agent",
+        "Graphics-Agent",
+        "Modeling-Agent",
+        "IO-Agent",
+        "UXUI-Agent",
+        "API-Agent",
+        "Cloud-Agent",
+        "QA-Agent",
+        "Sentinel-Agent"
+      ],
+      "description": "The agent responsible for executing this task"
+    },
+    "goal": {
+      "type": "string",
+      "description": "Clear, concise goal statement"
+    },
+    "acceptance_criteria": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "description": "List of measurable acceptance criteria"
+    },
+    "code_location": {
+      "type": "string",
+      "description": "File path or directory for code changes"
+    },
+    "dependencies": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^P[0-9]+-T[0-9]+$"
+      },
+      "description": "List of prerequisite task IDs"
+    },
+    "dependency_status": {
+      "type": "string",
+      "enum": ["satisfied", "pending", "blocked"],
+      "description": "Current status of all dependencies"
+    },
+    "context": {
+      "type": "object",
+      "properties": {
+        "related_files": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "design_notes": {
+          "type": "string"
+        },
+        "performance_requirements": {
+          "type": "object"
+        }
+      },
+      "description": "Additional context and requirements"
+    }
+  }
+}
