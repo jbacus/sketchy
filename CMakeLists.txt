@@ -18,6 +18,7 @@ include_directories(
 # Core library subdirectories
 add_subdirectory(src/core_kernel)
 add_subdirectory(src/core_kernel/modeling)
+add_subdirectory(src/kernel)
 
 if(BUILD_GRAPHICS)
     add_subdirectory(src/graphics)
@@ -32,6 +33,16 @@ target_link_libraries(sketchy
     PRIVATE
         sketchy_kernel
         sketchy_modeling
+)
+
+# Euler operator demonstration
+add_executable(euler_demo
+    src/kernel/demo_euler.cpp
+)
+
+target_link_libraries(euler_demo
+    PRIVATE
+        sketchy_euler_kernel
 )
 
 if(BUILD_GRAPHICS)
