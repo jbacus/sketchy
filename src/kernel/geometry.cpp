@@ -1,8 +1,6 @@
-#include "sketchy/kernel/geometry.h"
-#include <cmath>
+#include "geometry.h"
 
-namespace sketchy {
-namespace kernel {
+namespace SketchyKernel {
 
 Mat4 Mat4::translation(double x, double y, double z) {
     Mat4 result;
@@ -67,5 +65,4 @@ Vec3 Mat4::transform(const Vec3& v) const {
     return Vec3(x, y, z);
 }
 
-} // namespace kernel
-} // namespace sketchy
+} // namespace SketchyKernel

@@ -1,14 +1,13 @@
 #ifndef SKETCHY_KERNEL_GEOMETRY_H
 #define SKETCHY_KERNEL_GEOMETRY_H
 
-#include <array>
 #include <cmath>
+#include <array>
 
-namespace sketchy {
-namespace kernel {
+namespace SketchyKernel {
 
 /**
- * 3D Vector representation
+ * 3D Vector with full mathematical operations
  */
 class Vec3 {
 public:
@@ -83,7 +82,9 @@ public:
     Vec3 transform(const Vec3& v) const;
 };
 
-} // namespace kernel
-} // namespace sketchy
+// Alias Point3D to Vec3 for compatibility
+using Point3D = Vec3;
+
+} // namespace SketchyKernel
 
 #endif // SKETCHY_KERNEL_GEOMETRY_H
