@@ -174,6 +174,88 @@ TEST_F(EulerOperatorTest, KEF_ThrowsOnNullEdge) {
     EXPECT_THROW(kernel.kef(nullptr), std::invalid_argument);
 }
 
+// ==================== KEF Boundary Edge Tests (P1-T1-SUB6) ====================
+
+TEST_F(EulerOperatorTest, KEF_BoundaryEdge_RemovesEdgeAndFace) {
+    // Create a simple line segment (boundary configuration)
+    auto v1 = kernel.mvsf(Point3D(0, 0, 0));
+    auto face = kernel.getFaces()[0];
+    auto edge = kernel.mev(v1, Point3D(1, 0, 0), face);
+
+    // This edge is a "dangling" boundary edge with only one face
+    ASSERT_TRUE(edge->f1 != nullptr);
+    ASSERT_TRUE(edge->f2 != nullptr); // MEV initially sets both to same face
+
+    // Make it a true boundary edge
+    edge->f2 = nullptr;
+
+    size_t initial_edges = kernel.getEdgeCount();
+    size_t initial_faces = kernel.getFaceCount();
+
+    // Apply KEF to boundary edge
+    auto deleted_face = kernel.kef(edge);
+
+    EXPECT_NE(deleted_face, nullptr);
+    EXPECT_EQ(kernel.getEdgeCount(), initial_edges - 1);
+    EXPECT_EQ(kernel.getFaceCount(), initial_faces - 1);
+}
+
+TEST_F(EulerOperatorTest, KEF_BoundaryEdge_SetsRemainingEdgesToNull) {
+    // Build a closed triangle first, then kill one edge
+    auto v1 = kernel.mvsf(Point3D(0, 0, 0));
+    auto face = kernel.getFaces()[0];
+
+    auto e1 = kernel.mev(v1, Point3D(1, 0, 0), face);
+    auto v2 = e1->v2;
+
+    auto e2 = kernel.mev(v2, Point3D(0.5, 1, 0), face);
+    auto v3 = e2->v2;
+
+    // Close the loop with MEF
+    auto e3 = kernel.mef(v3, v1, face);
+
+    // Now we have two faces: the original outer face and a new inner face
+    // e3 separates them
+    auto inner_face = (e3->f1 == face) ? e3->f2 : e3->f1;
+
+    // Make e3 a boundary edge by removing one face reference
+    e3->f2 = nullptr;
+
+    // Verify we have a boundary edge
+    ASSERT_TRUE(e3->f1 != nullptr);
+    ASSERT_TRUE(e3->f2 == nullptr);
+
+    // Store references to other edges before KEF
+    auto face_to_kill = e3->f1;
+
+    // Kill the boundary edge and face
+    auto killed_face = kernel.kef(e3);
+
+    EXPECT_EQ(killed_face, face_to_kill);
+
+    // Check that edges on the boundary now have nullptr where they referenced killed_face
+    // Since the face is killed, all edges that were on its boundary should be updated
+    if (e1->f1 == killed_face || e1->f2 == killed_face) {
+        bool has_null = (e1->f1 == nullptr || e1->f2 == nullptr);
+        EXPECT_TRUE(has_null) << "Edge e1 should have nullptr for killed face";
+    }
+}
+
+TEST_F(EulerOperatorTest, KEF_BoundaryEdge_ReturnsKilledFace) {
+    auto v = kernel.mvsf(Point3D(0, 0, 0));
+    auto face = kernel.getFaces()[0];
+    auto edge = kernel.mev(v, Point3D(1, 0, 0), face);
+
+    // Make it a boundary edge
+    auto original_face = edge->f1;
+    edge->f2 = nullptr;
+
+    // KEF should return the face that was killed
+    auto killed_face = kernel.kef(edge);
+
+    EXPECT_EQ(killed_face, original_face);
+}
+
 // ==================== Navigation Tests ====================
 
 TEST_F(EulerOperatorTest, GetIncidentEdges_SingleVertex) {

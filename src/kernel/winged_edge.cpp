@@ -138,11 +138,42 @@ std::shared_ptr<Face> WingedEdgeKernel::kef(std::shared_ptr<Edge> edge) {
     if (!edge) {
         throw std::invalid_argument("KEF: edge cannot be null");
     }
+
+    // Case 1: Boundary edge (only one face) - Kill edge and face
     if (!edge->f1 || !edge->f2) {
-        throw std::invalid_argument("KEF: edge must be adjacent to two faces");
+        auto face_to_kill = edge->f1 ? edge->f1 : edge->f2;
+
+        if (!face_to_kill) {
+            throw std::invalid_argument("KEF: edge has no adjacent faces");
+        }
+
+        // Get all edges on the boundary of the face
+        auto boundary_edges = getFaceBoundary(face_to_kill);
+
+        // Remove the edge from the edge list
+        edges.erase(std::remove(edges.begin(), edges.end(), edge), edges.end());
+
+        // Update all remaining boundary edges to set their reference
+        // to face_to_kill to nullptr
+        for (auto& e : boundary_edges) {
+            if (e == edge) continue; // Skip the killed edge
+
+            if (e->f1 == face_to_kill) {
+                e->f1 = nullptr;
+            }
+            if (e->f2 == face_to_kill) {
+                e->f2 = nullptr;
+            }
+        }
+
+        // Remove the face from the face list
+        faces.erase(std::remove(faces.begin(), faces.end(), face_to_kill), faces.end());
+
+        // Return the killed face (as specified in task)
+        return face_to_kill;
     }
 
-    // Get the two faces
+    // Case 2: Internal edge (two faces) - Merge faces
     auto f1 = edge->f1;
     auto f2 = edge->f2;
 
@@ -161,7 +192,9 @@ std::shared_ptr<Face> WingedEdgeKernel::kef(std::shared_ptr<Edge> edge) {
 
     // Rewire the edge connectivity around the removed edge
     // Connect the previous and next edges that were connected to the killed edge
+    // (Implementation depends on specific connectivity pattern)
 
+    // Return the surviving face
     return f1;
 }
 
