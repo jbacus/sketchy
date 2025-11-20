@@ -5,20 +5,13 @@
 #include <vector>
 #include <memory>
 #include <stdexcept>
+#include "geometry.h"
 
 namespace SketchyKernel {
 
 struct Vertex;
 struct Edge;
 struct Face;
-
-// A simple structure for 3D coordinates
-struct Point3D {
-    double x, y, z;
-
-    Point3D() : x(0), y(0), z(0) {}
-    Point3D(double x, double y, double z) : x(x), y(y), z(z) {}
-};
 
 // Represents a Vertex in the Winged-Edge structure
 struct Vertex {

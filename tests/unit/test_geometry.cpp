@@ -1,8 +1,8 @@
 #include <gtest/gtest.h>
-#include "sketchy/kernel/geometry.h"
+#include "kernel/geometry.h"
 #include <cmath>
 
-using namespace sketchy::kernel;
+using namespace SketchyKernel;
 
 // Test fixture for geometry tests
 class GeometryTest : public ::testing::Test {
@@ -147,4 +147,16 @@ TEST_F(GeometryTest, Mat4Multiplication) {
 
     // First scale, then translate
     EXPECT_TRUE(vec_approx_equal(result, Vec3(3.0, 2.0, 2.0)));
+}
+
+// Point3D alias test
+TEST_F(GeometryTest, Point3DAliasWorks) {
+    Point3D p(1.0, 2.0, 3.0);
+    EXPECT_EQ(p.x, 1.0);
+    EXPECT_EQ(p.y, 2.0);
+    EXPECT_EQ(p.z, 3.0);
+
+    // Should work as Vec3
+    Vec3 v = p + Vec3(1, 1, 1);
+    EXPECT_EQ(v.x, 2.0);
 }

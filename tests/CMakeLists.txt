@@ -12,10 +12,10 @@ FetchContent_MakeAvailable(googletest)
 
 enable_testing()
 
-# Unit tests
+# Consolidated kernel tests
 add_executable(test_kernel
     unit/test_geometry.cpp
-    unit/test_winged_edge.cpp
+    unit/test_euler_operators.cpp
 )
 
 target_link_libraries(test_kernel
@@ -26,25 +26,8 @@ target_link_libraries(test_kernel
 
 target_include_directories(test_kernel
     PRIVATE
-        ${PROJECT_SOURCE_DIR}/include
-)
-
-# Euler Operator tests
-add_executable(test_euler_kernel
-    unit/test_euler_operators.cpp
-)
-
-target_link_libraries(test_euler_kernel
-    PRIVATE
-        sketchy_euler_kernel
-        GTest::gtest_main
-)
-
-target_include_directories(test_euler_kernel
-    PRIVATE
         ${PROJECT_SOURCE_DIR}/src
 )
 
 include(GoogleTest)
 gtest_discover_tests(test_kernel)
-gtest_discover_tests(test_euler_kernel)
